@@ -21,6 +21,11 @@ public class RoleService : IRoleService
 
     public async Task<Role> AddRoleAsync(Role role)
     {
+        if (role == null)
+        {
+            throw new ArgumentNullException(nameof(role), "Role cannot be null.");
+        }
+
         _dbContext.Roles.Add(role);
         await _dbContext.SaveChangesAsync();
         return role;
@@ -28,6 +33,11 @@ public class RoleService : IRoleService
 
     public async Task<Role> UpdateRoleAsync(Role role)
     {
+        if (role == null)
+        {
+            throw new ArgumentNullException(nameof(role), "Role cannot be null.");
+        }
+
         _dbContext.Roles.Update(role);
         await _dbContext.SaveChangesAsync();
         return role;

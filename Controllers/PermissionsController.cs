@@ -32,6 +32,11 @@ public class PermissionsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddPermission(Permission permission)
     {
+        if (permission == null)
+        {
+            return BadRequest("Permission cannot be null.");
+        }
+
         var addedPermission = await _permissionService.AddPermissionAsync(permission);
         return CreatedAtAction(nameof(GetPermissionById), new { id = addedPermission.Id }, addedPermission);
     }
@@ -39,10 +44,11 @@ public class PermissionsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePermission(int id, Permission permission)
     {
-        if (id != permission.Id)
+        if (id != permission.Id || permission == null)
         {
             return BadRequest();
         }
+
         var updatedPermission = await _permissionService.UpdatePermissionAsync(permission);
         return Ok(updatedPermission);
     }

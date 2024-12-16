@@ -25,6 +25,11 @@ public class UserService : IUserService
 
     public async Task<User> AddUserAsync(User user)
     {
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
         return user;
@@ -32,6 +37,11 @@ public class UserService : IUserService
 
     public async Task<User> UpdateUserAsync(User user)
     {
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+
         _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();
         return user;

@@ -36,6 +36,11 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddUser(User user)
     {
+        if (user == null)
+        {
+            return BadRequest("User cannot be null.");
+        }
+
         var addedUser = await _userService.AddUserAsync(user);
         return CreatedAtAction(nameof(GetUserById), new { id = addedUser.Id }, addedUser);
     }
@@ -43,10 +48,11 @@ public class UsersController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, User user)
     {
-        if (id != user.Id)
+        if (id != user.Id || user == null)
         {
             return BadRequest();
         }
+
         var updatedUser = await _userService.UpdateUserAsync(user);
         return Ok(updatedUser);
     }

@@ -21,6 +21,11 @@ public class PermissionService : IPermissionService
 
     public async Task<Permission> AddPermissionAsync(Permission permission)
     {
+        if (permission == null)
+        {
+            throw new ArgumentNullException(nameof(permission), "Permission cannot be null.");
+        }
+
         _dbContext.Permissions.Add(permission);
         await _dbContext.SaveChangesAsync();
         return permission;
@@ -28,6 +33,11 @@ public class PermissionService : IPermissionService
 
     public async Task<Permission> UpdatePermissionAsync(Permission permission)
     {
+        if (permission == null)
+        {
+            throw new ArgumentNullException(nameof(permission), "Permission cannot be null.");
+        }
+
         _dbContext.Permissions.Update(permission);
         await _dbContext.SaveChangesAsync();
         return permission;

@@ -32,6 +32,11 @@ public class RolesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddRole(Role role)
     {
+        if (role == null)
+        {
+            return BadRequest("Role cannot be null.");
+        }
+
         var addedRole = await _roleService.AddRoleAsync(role);
         return CreatedAtAction(nameof(GetRoleById), new { id = addedRole.Id }, addedRole);
     }
@@ -39,10 +44,11 @@ public class RolesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRole(int id, Role role)
     {
-        if (id != role.Id)
+        if (id != role.Id || role == null)
         {
             return BadRequest();
         }
+
         var updatedRole = await _roleService.UpdateRoleAsync(role);
         return Ok(updatedRole);
     }
