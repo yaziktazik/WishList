@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WishlistApp.Middleware;
 
 using Microsoft.EntityFrameworkCore; // Убедитесь, что пространство имен Entity Framework Core добавлено
 
@@ -34,6 +35,12 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 var app = builder.Build();
+
+// Регистрация middleware для обработки ошибок
+builder.Services.AddLogging(); // Убедитесь, что логирование настроено
+
+// Регистрация middleware для обработки ошибок
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 // Настройка конвейера HTTP-запросов
 if (app.Environment.IsDevelopment())
